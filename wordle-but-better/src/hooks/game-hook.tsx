@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { FormattedGuessType, GuessInfoType, TOTAL_GUESSES } from '../constants/game';
 
+// set up of game hook inspiration from "https://blog.openreplay.com/build-a-wordle-like-game-using-react/"
+
 const useWordleGame = (solution: string) => {
   const [currentGuess, setCurrentGuess] = React.useState({
     guessCount: 0,
