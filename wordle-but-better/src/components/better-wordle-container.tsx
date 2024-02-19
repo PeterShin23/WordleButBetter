@@ -7,7 +7,7 @@ import { WordRow } from "./word-row";
 export const BetterWordleContainer = () => {
   const { state } = useWordContext();
 
-  const { currentGuess, handleKeyUp, guesses } = useWordleGame(state.word);
+  const { currentGuess, handleKeyUp, guesses, isEnterSubmitted } = useWordleGame(state.word);
 
   React.useEffect(() => {
     window.addEventListener('keyup', handleKeyUp)
@@ -29,12 +29,7 @@ export const BetterWordleContainer = () => {
             if (index <= guesses.length) {
               const guessAtIndex = guesses?.find((guess) => guess.index === index)?.guess
 
-              return <WordRow key={index} previousGuess={guessAtIndex} />
-            }
-            else if (index <= guesses.length) {
-              const guessAtIndex = guesses?.find((guess) => guess.index === index)?.guess
-
-              return <WordRow key={index} previousGuess={guessAtIndex} />
+              return <WordRow key={index} previousGuess={guessAtIndex} isEnterSubmitted={isEnterSubmitted} />
             }
             else {
               return <WordRow key={index} />

@@ -9,10 +9,12 @@ type WordRowProps = {
     guessCount: number;
     guessWord: string;
   }
+  isEnterSubmitted?: boolean;
+  clearEnterSubmitted?: () => void;
 }
 
 export const WordRow: React.FC<WordRowProps> = (props) => {
-  const { currentGuess, previousGuess } = props;
+  const { currentGuess, previousGuess, isEnterSubmitted } = props;
 
   const { state } = useWordContext();
   const { word } = state;
@@ -24,8 +26,10 @@ export const WordRow: React.FC<WordRowProps> = (props) => {
           return (
             <LetterBlock 
               key={index} 
+              index={index}
               letter={previousGuess[index]?.key.toUpperCase() ?? ""} 
               color={previousGuess[index]?.color}
+              isEnterSubmitted={isEnterSubmitted}
             />
           );
         })}
@@ -37,7 +41,13 @@ export const WordRow: React.FC<WordRowProps> = (props) => {
     return (
       <div className="flex flex-row justify-center items-center">
         {Array.from(word, (char, index) => {
-          return <LetterBlock key={index} letter={currentGuess?.guessWord[index]?.toUpperCase() ?? ""} />;
+          return (
+            <LetterBlock 
+              key={index} 
+              index={index}
+              letter={currentGuess?.guessWord[index]?.toUpperCase() ?? ""} 
+            />
+          )
         })}
       </div>
     )
@@ -46,7 +56,7 @@ export const WordRow: React.FC<WordRowProps> = (props) => {
   return (
     <div className="flex flex-row justify-center items-center">
       {Array.from(word, (_, index) => {
-        return <LetterBlock key={index} letter={""} />;
+        return <LetterBlock key={index} index={index} letter={""} />;
       })}
     </div>
   )
