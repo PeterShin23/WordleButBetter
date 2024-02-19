@@ -1,12 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
+import * as React from 'react';
 import './App.css';
+import { WordContextState, wordReducer } from './reducers/word-reducer';
+import { WordContext } from './contexts/word-context';
+import { BetterWordleContainer } from './components/better-wordle-container';
 
 function App() {
+  const wordOfTheDay = "BOMB";
+
+  const [word, setWord] = React.useReducer(wordReducer, {
+    word: wordOfTheDay,
+  } as WordContextState);
+
   return (
-    <div className="text-blue-300">
-      hello
-    </div>
+    <>
+      <WordContext.Provider value={{ state: word, dispatch: setWord }}>
+        <BetterWordleContainer />
+      </WordContext.Provider>
+    </>
   );
 }
 
