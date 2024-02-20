@@ -1,4 +1,5 @@
 # WordleButBetter
 
-## Known Bugs
-Multiple characters in a guess are considered `Yellow` even if the character exists less frequently as it indicates.
+## Current Demo
+<img width="300" alt="image" src="https://github.com/PeterShin23/WordleButBetter/assets/61630562/15e39ed7-cae0-4a09-b504-25791a022fa1">
+
