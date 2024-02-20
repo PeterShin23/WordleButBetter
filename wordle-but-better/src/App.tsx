@@ -5,7 +5,7 @@ import { WordContext } from './contexts/word-context';
 import { BetterWordleContainer } from './components/better-wordle-container';
 
 function App() {
-  const wordOfTheDay = "MORELULL";
+  const wordOfTheDay = "BOON";
 
   const [word, setWord] = React.useReducer(wordReducer, {
     word: wordOfTheDay,

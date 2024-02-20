@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FormattedGuessType, GuessInfoType, TOTAL_GUESSES } from '../constants/game';
-import { isAnswer } from '../helpers/game-helper';
+import { countLetterOccurrences, isAnswer } from '../helpers/game-helper';
 
 // set up of game hook inspiration from "https://blog.openreplay.com/build-a-wordle-like-game-using-react/"
 
@@ -17,19 +17,53 @@ const useWordleGame = (solution: string) => {
     const solutionArray = Array.from(solution.toLowerCase());
     const currentGuessArray = Array.from(currentGuess.guessWord.toLowerCase());
 
-    const formattedGuess = currentGuessArray.reduce((acc, curr, i) => {
-      if (curr === solutionArray[i]) {
-        acc.push({ key: curr, color: 'bg-green-300' });
+    let correctPlacementIndicesMap: ({ index: number } & FormattedGuessType)[] = [];
+    const correctIndices: number[] = [];
+    const seen: string[] = [];
+
+    // take matches out first
+    for (let i = 0; i < solutionArray.length; i++) {
+      if (solutionArray[i] === currentGuessArray[i]) {
+        correctPlacementIndicesMap.push({ index: i, key: solutionArray[i], color: 'bg-green-300' });
+        correctIndices.push(i)
+      } else {
+        correctPlacementIndicesMap.push({ index: i, key: currentGuessArray[i], color: undefined });
       }
-      else if (solutionArray.includes(curr)) {
-        acc.push({ key: curr, color: 'bg-yellow-300' });
-      } 
-      else {
-        acc.push({ key: curr, color: undefined });
+    }
+
+    const remainderCurrentGuessArray = correctPlacementIndicesMap.filter((item) => !correctIndices.includes(item.index))
+    const remainderSolutionArray = solutionArray
+      .filter((char, i) => !correctIndices.includes(i))
+      .map((char, i) => {
+        return { index: i, key: char, color: undefined };
+      });
+    
+    // checking the rest of the characters in case there were misleading matches or duplicate characters in the solution
+    for (const item of remainderCurrentGuessArray) {     
+      const solutionArray = remainderSolutionArray.map(item => item.key);
+      const letter = item.key;
+      
+      if (solutionArray.includes(letter)) { 
+        const currInSolutionFrequency = countLetterOccurrences(solutionArray, letter);
+        const seenFrequency = countLetterOccurrences(seen, letter);
+
+        if (seenFrequency < currInSolutionFrequency) {
+          const replacement = { index: item.index, key: item.key, color: "bg-yellow-300"};
+
+          correctPlacementIndicesMap = correctPlacementIndicesMap.filter((toReplace) => toReplace.index !== replacement.index)
+          correctPlacementIndicesMap.push(replacement);
+        }
       }
 
-      return acc;
-    }, [] as FormattedGuessType[]);
+      seen.push(letter);
+    }
+
+    // ordering to get back the indices that were removed
+    const formattedGuess = correctPlacementIndicesMap
+      .sort((a, b) => a.index - b.index)
+      .map((item) => {
+        return { key: item.key, color: item.color };
+      });
 
     return formattedGuess;
   }
