@@ -10,7 +10,8 @@ module.exports = {
     extend: {
       animation: {
         flip: 'flip 0.7s ease forwards',
-        flipKeep: 'flip 1.2s ease forwards infinite'
+        flipKeep: 'flip 1.2s ease forwards infinite',
+        rotate: 'rotation 2s infinite linear',
       },
       keyframes: {
         flip: {
@@ -19,6 +20,14 @@ module.exports = {
           },
           '45%, 55%': {
             transform: 'rotateX(90deg)'
+          }
+        },
+        rotation: {
+          '0%': {
+            transform: 'rotate(0)'
+          },
+          '99%': {
+            transform: 'rotate(359deg)'
           }
         }
       },

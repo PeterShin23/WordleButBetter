@@ -83,6 +83,10 @@ const useWordleGame = (solution: string) => {
     if (currentGuess.guessCount === TOTAL_GUESSES || isCorrect) return;
 
     else if (key === 'Enter' && currentGuess.guessWord.length === solution.length) {
+      // TODO: more enter logic
+      // don't let them guess the same word
+      // don't let them guess a word that doesn't exist
+
       const formattedGuess = formatGuess();
 
       addNewGuess(formattedGuess);
