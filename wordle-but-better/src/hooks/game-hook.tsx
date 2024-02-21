@@ -1,17 +1,15 @@
 import * as React from 'react';
 import { FormattedGuessType, GuessInfoType, TOTAL_GUESSES } from '../constants/game';
 import { countLetterOccurrences, isAnswer } from '../helpers/game-helper';
+import { getInitialData } from '../helpers/general-helper';
 
 // set up of game hook inspiration from "https://blog.openreplay.com/build-a-wordle-like-game-using-react/"
 
 const useWordleGame = (solution: string) => {
-  const [currentGuess, setCurrentGuess] = React.useState({
-    guessCount: 0,
-    guessWord: "",
-  });
-  const [guesses, setGuesses] = React.useState<GuessInfoType[]>([]);
+  const [currentGuess, setCurrentGuess] = React.useState(getInitialData().currentGuess);
+  const [guesses, setGuesses] = React.useState<GuessInfoType[]>(getInitialData().guesses);
+  const [isCorrect, setIsCorrect] = React.useState<boolean>(getInitialData().isCorrect);
   const [isEnterSubmitted, setIsEnterSubmitted] = React.useState<boolean>(false);
-  const [isCorrect, setIsCorrect] = React.useState<boolean>(false);
 
   const formatGuess = () => {
     const solutionArray = Array.from(solution.toLowerCase());
@@ -110,6 +108,17 @@ const useWordleGame = (solution: string) => {
       }
     }
   }
+
+  React.useEffect(() => {
+    let userData = {
+      isCorrect: isCorrect,
+      guesses: guesses,
+      currentGuess: currentGuess,
+      currentDate: new Date(),
+    }
+
+    localStorage.setItem("ps-wordle-game-user-data", JSON.stringify(userData));
+  }, [currentGuess, guesses, isCorrect])
 
   return { 
     currentGuess, 

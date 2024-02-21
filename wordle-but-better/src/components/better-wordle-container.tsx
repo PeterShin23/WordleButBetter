@@ -1,17 +1,24 @@
 import React from "react";
 
-import { TOTAL_GUESSES } from "../constants/game";
-import useWordleGame from "../hooks/game-hook";
-import useWordContext from "../hooks/word-hook";
+import { GuessInfoType, TOTAL_GUESSES } from "../constants/game";
+
 import { HintCard } from "./left-side-cards/hint-card";
 import { ResultCard } from "./left-side-cards/result-card";
 import { SettingsButton } from "./settings-button";
 import { WordRow } from "./word-row";
 
-export const BetterWordleContainer = () => {
-  const { state } = useWordContext();
+type BetterWordleContainerProps = {
+  currentGuess: any;
+  handleKeyUp: any;
+  guesses: any;
+  isEnterSubmitted: any;
+  isCorrect: any;
+}
 
-  const { currentGuess, handleKeyUp, guesses, isEnterSubmitted, isCorrect } = useWordleGame(state.word);
+export const BetterWordleContainer: React.FC<BetterWordleContainerProps> = (props) => {
+  const { currentGuess, handleKeyUp, guesses, isEnterSubmitted, isCorrect } = props;
+
+  const showResultCard: boolean = currentGuess.guessCount === TOTAL_GUESSES || isCorrect;
 
   React.useEffect(() => {
     window.addEventListener('keyup', handleKeyUp)
@@ -23,10 +30,10 @@ export const BetterWordleContainer = () => {
     <div className="flex flex-row">
       <div className="h-screen w-5/12 select-none">
         {/* content here will be related to difficulty, category, etc */}
-        {currentGuess.guessCount >= 5 && currentGuess.guessCount < TOTAL_GUESSES && (
+        {(!showResultCard && currentGuess.guessCount >= 5 && currentGuess.guessCount < TOTAL_GUESSES) && (
           <HintCard />
         )}
-        {currentGuess.guessCount === TOTAL_GUESSES && (
+        {showResultCard && (
           <ResultCard result={isCorrect} />
         )}
       </div>
@@ -37,7 +44,7 @@ export const BetterWordleContainer = () => {
               return <WordRow key={index} currentGuess={currentGuess} />
             } 
             if (index <= guesses.length) {
-              const guessAtIndex = guesses?.find((guess) => guess.index === index)?.guess
+              const guessAtIndex = guesses?.find((guess: GuessInfoType) => guess.index === index)?.guess
 
               return <WordRow key={index} previousGuess={guessAtIndex} isEnterSubmitted={isEnterSubmitted} />
             }

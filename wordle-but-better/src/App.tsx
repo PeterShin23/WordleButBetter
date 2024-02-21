@@ -3,6 +3,7 @@ import './App.css';
 import { WordContextState, wordReducer } from './reducers/word-reducer';
 import { WordContext } from './contexts/word-context';
 import { BetterWordleContainer } from './components/better-wordle-container';
+import useWordleGame from './hooks/game-hook';
 
 function App() {
   const wordOfTheDay = "BOON";
@@ -11,10 +12,18 @@ function App() {
     word: wordOfTheDay,
   } as WordContextState);
 
+  const { currentGuess, handleKeyUp, guesses, isEnterSubmitted, isCorrect } = useWordleGame(wordOfTheDay);
+
   return (
     <>
       <WordContext.Provider value={{ state: word, dispatch: setWord }}>
-        <BetterWordleContainer />
+        <BetterWordleContainer 
+          currentGuess={currentGuess}
+          handleKeyUp={handleKeyUp}
+          guesses={guesses}
+          isEnterSubmitted={isEnterSubmitted}
+          isCorrect={isCorrect}
+        />
       </WordContext.Provider>
     </>
   );
