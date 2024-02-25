@@ -28,16 +28,16 @@ export const BetterWordleContainer: React.FC<BetterWordleContainerProps> = (prop
 
   return (
     <div className="flex flex-row">
-      <div className="h-screen w-5/12 select-none">
+      {/* <div className="h-screen w-5/12 select-none"> */}
         {/* content here will be related to difficulty, category, etc */}
-        {(!showResultCard && currentGuess.guessCount >= 5 && currentGuess.guessCount < TOTAL_GUESSES) && (
+        {/* {(!showResultCard && currentGuess.guessCount >= 5 && currentGuess.guessCount < TOTAL_GUESSES) && (
           <HintCard />
-        )}
-        {showResultCard && (
+        )} */}
+        {/* {showResultCard && (
           <ResultCard result={isCorrect} />
-        )}
-      </div>
-      <div className="h-screen w-7/12 flex justify-center items-center select-none">
+        )} */}
+      {/* </div> */}
+      <div className="h-screen w-full flex justify-center items-center select-none">
         <div>
           {Array.from({length: TOTAL_GUESSES}, (_, index) => {
             if (index === currentGuess.guessCount) {

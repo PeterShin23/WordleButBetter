@@ -1,5 +1,7 @@
+import { generate } from 'random-words';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -7,9 +9,12 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const newWordOfTheDay = generate({ exactly: 1, minLength: 5, maxLength: 8 })[0];
+
 root.render(
   <React.StrictMode>
-    <App />
+    <App initialState={{ newWordOfTheDay }}/>
   </React.StrictMode>
 );
 
