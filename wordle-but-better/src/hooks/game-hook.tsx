@@ -96,7 +96,7 @@ const useWordleGame = (solution: string) => {
 
       // If done, save score to game history
       if (currentGuessCount === TOTAL_GUESSES || isCorrectAnswer) {
-        setHistoryScores(TOTAL_GUESSES - currentGuessCount);
+        setHistoryScores(isCorrectAnswer ? TOTAL_GUESSES - currentGuessCount + 1 : TOTAL_GUESSES - currentGuessCount); // + 1 for getting it correct
       }
 
       return;
