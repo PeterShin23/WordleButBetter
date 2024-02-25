@@ -34,7 +34,7 @@ export const BetterWordleContainer: React.FC<BetterWordleContainerProps> = (prop
   return (
     <div className={`flex flex-row ${darkMode ? "bg-slate-800" : "bg-slate-050"}`}>
       {showResultCard && 
-        <ResultCard score={TOTAL_GUESSES - currentGuess.guessCount} darkMode={darkMode} />
+        <ResultCard score={isCorrect ? (TOTAL_GUESSES - currentGuess.guessCount + 1) : TOTAL_GUESSES - currentGuess.guessCount} darkMode={darkMode} />
       }
       <div className="h-screen w-full flex justify-center items-center select-none">
         <div>

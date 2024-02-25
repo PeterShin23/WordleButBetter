@@ -2,7 +2,7 @@ import { GuessInfoType } from "../constants/game";
 
 export const getYearMonthDate = (date: Date) => {
   const year = date.getFullYear();
-  const month = date.getMonth() + 1;
+  const month = date.getMonth();
   const day = date.getDate();
 
   return new Date(year, month, day, 0, 0, 0, 0);
@@ -69,8 +69,6 @@ export const setTodayWord = (newWord: string) => {
   let wordToSet = "";
 
   let historyTodayDate = new Date(gameHistory.today.date);
-
-  historyTodayDate.setMonth(historyTodayDate.getMonth() - 1);
 
   const gameHistoryDate = getYearMonthDate(historyTodayDate);
   const todayDate = getYearMonthDate(new Date());
