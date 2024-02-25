@@ -54,8 +54,8 @@ const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
   return (
     <div ref={settingsMenuRef} className="absolute z-10 right-0 cursor-pointer">
       <div className="w-32 h-24 border-4 rounded-lg">
-        <div>Setting1</div>
-        <div>Setting2</div>
+        <div>See Stats</div>
+        <div>Contribute to ya boi</div>
       </div>
     </div>
   )

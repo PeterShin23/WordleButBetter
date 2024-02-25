@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormattedGuessType, GuessInfoType, TOTAL_GUESSES } from '../constants/game';
 import { countLetterOccurrences, isAnswer } from '../helpers/game-helper';
-import { getInitialData } from '../helpers/general-helper';
+import { getGameHistoryData, getInitialData, setHistoryScores } from '../helpers/general-helper';
 
 // set up of game hook inspiration from "https://blog.openreplay.com/build-a-wordle-like-game-using-react/"
 
@@ -86,11 +86,18 @@ const useWordleGame = (solution: string) => {
       // don't let them guess a word that doesn't exist
 
       const formattedGuess = formatGuess();
+      const currentGuessCount = currentGuess.guessCount + 1;
+      const isCorrectAnswer = isAnswer(solution, currentGuess.guessWord);
 
       addNewGuess(formattedGuess);
       setIsEnterSubmitted(true);
-      isAnswer(solution, currentGuess.guessWord) && setIsCorrect(true);
-      setCurrentGuess({ guessCount: currentGuess.guessCount + 1, guessWord: "" });
+      isCorrectAnswer && setIsCorrect(true);
+      setCurrentGuess({ guessCount: currentGuessCount, guessWord: "" });
+
+      // If done, save score to game history
+      if (currentGuessCount === TOTAL_GUESSES || isCorrectAnswer) {
+        setHistoryScores(TOTAL_GUESSES - currentGuessCount);
+      }
 
       return;
     }
