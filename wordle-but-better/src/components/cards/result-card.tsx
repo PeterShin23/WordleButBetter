@@ -6,6 +6,7 @@ import { COLOR_DARK, COLOR_MEDIUM } from '../../constants/game';
 
 import { getScoreText } from '../../helpers/game-helper';
 import { getHistoryScoresAverage } from '../../helpers/general-helper';
+import useWordContext from '../../hooks/word-hook';
 import { GameHistoryChart } from './views/game-history-chart';
 
 type ResultCardProps = {
@@ -16,6 +17,8 @@ type ResultCardProps = {
 // maybe also add a react drag and drop feature to place the div in different location?
 export const ResultCard: React.FC<ResultCardProps> = (props) => {
   const { score, darkMode } = props;
+
+  const { state } = useWordContext();
 
   return (
     <AnimatePresence key={Math.round((Math.random()*100))}>
@@ -30,7 +33,7 @@ export const ResultCard: React.FC<ResultCardProps> = (props) => {
       <div>
         <div className="flex flex-col justify-center items-center m-4">
         <div className="flex font-bold text-center pb-4">
-          {getScoreText(score)}
+          {getScoreText(score, state.word)}
         </div>
         <div className="text-3xl font-bold pb-4">
           Score: {score}
