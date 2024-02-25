@@ -24,7 +24,9 @@ export const GameHistoryChart = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-center pb-2 text-base">{`You've played ${totalCount} time${totalCount === 1 ? "" : "s"}`}!</div>
+      <div className="flex justify-center pb-2 text-base">
+        {`You've played ${totalCount} time${totalCount === 1 ? "" : "s"}`}!
+      </div>
       {Array.from({ length: TOTAL_GUESSES + 1 }, (_, index) => {
           return (
             <StatRow score={index} count={gameHistoryMap[index] ?? 0} maxCount={maxCount} />
