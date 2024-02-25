@@ -67,9 +67,15 @@ export const setTodayWord = (newWord: string) => {
   const { gameHistory } = getGameHistoryData();
 
   let wordToSet = "";
+
+  let historyTodayDate = new Date(gameHistory.today.date);
+
+  historyTodayDate.setMonth(historyTodayDate.getMonth() - 1);
+
+  const gameHistoryDate = getYearMonthDate(historyTodayDate);
   const todayDate = getYearMonthDate(new Date());
 
-  if (!gameHistory.today.word || gameHistory.today.date < todayDate) {
+  if (!gameHistory.today.word || gameHistoryDate < todayDate) {
     wordToSet = newWord;
 
     const setNewWordInLocalStorage = {
