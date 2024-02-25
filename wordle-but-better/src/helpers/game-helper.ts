@@ -13,7 +13,7 @@ export function countLetterOccurrences(word: string | string[], letter: string) 
   return count;
 };
 
-export const getScoreText = (score: number) => {
+export const getScoreText = (score: number, solution: string) => {
   switch (score) {
     case 10:
       return "Teach me, master.";
@@ -32,7 +32,7 @@ export const getScoreText = (score: number) => {
     case 1:
       return "I can feel your sweat from here.";
     case 0:
-      return "You are simply bad at this game."
+      return `... It was ${solution.toLowerCase()}.`;
   }
 }
 
