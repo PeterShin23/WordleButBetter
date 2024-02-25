@@ -1,9 +1,18 @@
 import * as React from 'react';
+import { COLOR_DARK, COLOR_LIGHT } from '../constants/game';
+import { getGameHistoryData, setGameDarkMode } from '../helpers/general-helper';
 
 import setting from '../static/svg/setting.svg'
 import { assertIsNode } from '../utils/helpers';
 
-export const SettingsButton = () => {
+type SettingsButtonProps = {
+  darkMode: boolean;
+  setDarkMode: () => void;
+}
+
+export const SettingsButton: React.FC<SettingsButtonProps> = (props) => {
+  const { darkMode, setDarkMode } = props;
+
   const settingsButtonRef = React.useRef<HTMLButtonElement>(null);
   const settingsMenuRef = React.useRef<HTMLDivElement>(null);
 
@@ -37,7 +46,7 @@ export const SettingsButton = () => {
           <img src={setting} />
         </button>
         {showSettingsMenu && (
-          <SettingsMenu settingsMenuRef={settingsMenuRef}/>
+          <SettingsMenu settingsMenuRef={settingsMenuRef} darkMode={darkMode} setDarkMode={setDarkMode} />
         )}  
       </div>
     </>
@@ -45,17 +54,42 @@ export const SettingsButton = () => {
 }
 
 type SettingsMenuProps = {
-  settingsMenuRef: React.RefObject<HTMLDivElement>
+  settingsMenuRef: React.RefObject<HTMLDivElement>;
+  darkMode: boolean;
+  setDarkMode: () => void;
 }
 
 const SettingsMenu: React.FC<SettingsMenuProps> = (props) => {
-  const { settingsMenuRef } = props;
+  const { settingsMenuRef, darkMode, setDarkMode } = props;
+
+  const { gameHistory } = getGameHistoryData();
+
+  const darkModeText = React.useMemo(() => {
+    return gameHistory.darkMode 
+      ? "Let there be light"
+      : "Team Bravo, go dark"
+  }, [darkMode])
+
+  const [contributeText, setContributeText] = React.useState<string>("Contribute to ya boi");
+
+  const onContributeClick = () => {
+    setContributeText("jk, but look at my LinkedIn :)");
+
+    setTimeout(() => window.open("https://www.linkedin.com/in/petershin23/", "_blank", "noreferrer"), 2500);
+  }
 
   return (
-    <div ref={settingsMenuRef} className="absolute z-10 right-0 cursor-pointer">
-      <div className="w-32 h-24 border-4 rounded-lg">
-        <div>See Stats</div>
-        <div>Contribute to ya boi</div>
+    <div ref={settingsMenuRef} className={`absolute z-10 right-0 cursor-pointer ${darkMode ? "bg-slate-800" : "bg-slate-050"}`}>
+      <div className="w-40 border-4 text-sm rounded-lg" style={{ color: `${darkMode ? COLOR_LIGHT : COLOR_DARK}` }}>
+        <div className="flex justify-center items-center p-1 border-b-2">
+        <button onClick={() => {
+          setGameDarkMode();
+          setDarkMode();
+        }}>{darkModeText}</button>
+        </div>
+        <div className="flex justify-center items-center p-1">
+        <button onClick={onContributeClick}>{contributeText}</button>
+        </div>
       </div>
     </div>
   )

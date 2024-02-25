@@ -22,7 +22,7 @@ const useWordleGame = (solution: string) => {
     // take matches out first
     for (let i = 0; i < solutionArray.length; i++) {
       if (solutionArray[i] === currentGuessArray[i]) {
-        correctPlacementIndicesMap.push({ index: i, key: solutionArray[i], color: 'bg-green-300' });
+        correctPlacementIndicesMap.push({ index: i, key: solutionArray[i], color: 'bg-green-200' });
         correctIndices.push(i)
       } else {
         correctPlacementIndicesMap.push({ index: i, key: currentGuessArray[i], color: undefined });
@@ -46,7 +46,7 @@ const useWordleGame = (solution: string) => {
         const seenFrequency = countLetterOccurrences(seen, letter);
 
         if (seenFrequency < currInSolutionFrequency) {
-          const replacement = { index: item.index, key: item.key, color: "bg-yellow-300"};
+          const replacement = { index: item.index, key: item.key, color: "bg-yellow-200"};
 
           correctPlacementIndicesMap = correctPlacementIndicesMap.filter((toReplace) => toReplace.index !== replacement.index)
           correctPlacementIndicesMap.push(replacement);
