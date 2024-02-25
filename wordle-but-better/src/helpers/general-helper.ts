@@ -47,6 +47,7 @@ export const getGameHistoryData = () => {
       word: "",
     },
     history: [],
+    darkMode: false,
   }
 
   const existingUserHistoryData = localStorage.getItem("ps-wordle-game-user-history-data");
@@ -72,11 +73,11 @@ export const setTodayWord = (newWord: string) => {
     wordToSet = newWord;
 
     const setNewWordInLocalStorage = {
+      ...gameHistory,
       today: {
         date: getYearMonthDate(new Date()),
         word: wordToSet,
       },
-      history: gameHistory.history,
     }
 
     localStorage.setItem("ps-wordle-game-user-history-data", JSON.stringify(setNewWordInLocalStorage))
@@ -96,4 +97,25 @@ export const setHistoryScores = (score: number) => {
   }
 
   localStorage.setItem("ps-wordle-game-user-history-data", JSON.stringify(setNewScoreInHistory))
-}
+};
+
+export const setGameDarkMode = () => {
+  const { gameHistory } = getGameHistoryData();
+
+  const setDarkModeInGameHistory = {
+    ...gameHistory,
+    darkMode: !gameHistory.darkMode,
+  }
+
+  localStorage.setItem("ps-wordle-game-user-history-data", JSON.stringify(setDarkModeInGameHistory))
+};
+
+export const getHistoryScoresAverage = () => {
+  const { gameHistory } = getGameHistoryData();
+
+  const previousScores: number[] = gameHistory.history;
+  const sum = previousScores.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+  const average = previousScores.length ? sum / previousScores.length : 0;
+
+  return (Math.round(average * 10) / 10).toFixed(1);
+};

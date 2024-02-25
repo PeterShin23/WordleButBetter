@@ -19,6 +19,11 @@ export const App: React.FC<AppProps> = (props) => {
   const wordToSet = setTodayWord(props.initialState.newWordOfTheDay);
 
   const [wordOfTheDay, setWordOfTheDay] = React.useState<string>(wordToSet);
+  const [darkMode, setDarkMode] = React.useState<boolean>(getGameHistoryData().gameHistory.darkMode ?? false);
+
+  const darkModeHandler = () => {
+    setDarkMode(!darkMode);
+  }
 
   const [word, setWord] = React.useReducer(wordReducer, {
     word: wordOfTheDay,
@@ -34,6 +39,8 @@ export const App: React.FC<AppProps> = (props) => {
           guesses={guesses}
           isEnterSubmitted={isEnterSubmitted}
           isCorrect={isCorrect}
+          darkMode={darkMode}
+          setDarkMode={darkModeHandler}
         />
       </WordContext.Provider>
   );
