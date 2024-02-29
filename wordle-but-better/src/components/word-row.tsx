@@ -11,10 +11,11 @@ type WordRowProps = {
   }
   isEnterSubmitted?: boolean;
   darkMode: boolean;
+  isCorrect: boolean;
 }
 
 export const WordRow: React.FC<WordRowProps> = (props) => {
-  const { currentGuess, previousGuess, isEnterSubmitted , darkMode} = props;
+  const { currentGuess, previousGuess, isEnterSubmitted , darkMode, isCorrect } = props;
 
   const { state } = useWordContext();
   const { word } = state;
@@ -31,6 +32,7 @@ export const WordRow: React.FC<WordRowProps> = (props) => {
               color={previousGuess[index]?.color}
               isEnterSubmitted={isEnterSubmitted}
               darkMode={darkMode}
+              isGameOver={isCorrect}
             />
           );
         })}
@@ -48,6 +50,7 @@ export const WordRow: React.FC<WordRowProps> = (props) => {
               index={index}
               letter={currentGuess?.guessWord[index]?.toUpperCase() ?? ""} 
               darkMode={darkMode}
+              isGameOver={isCorrect}
             />
           )
         })}
@@ -58,7 +61,7 @@ export const WordRow: React.FC<WordRowProps> = (props) => {
   return (
     <div className="flex flex-row justify-center items-center">
       {Array.from(word, (_, index) => {
-        return <LetterBlock key={index} index={index} letter={""} darkMode={darkMode} />;
+        return <LetterBlock key={index} index={index} letter={""} darkMode={darkMode} isGameOver={isCorrect}/>;
       })}
     </div>
   )
