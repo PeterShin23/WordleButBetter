@@ -22,7 +22,6 @@ export const LetterBlock: React.FC<LetterBlockProps> = (props) => {
         justify-center items-center font-sans font-bold text-3xl
         ${!darkMode || color ? "text-slate-800 " : "text-white "}
         ${isEnterSubmitted ? `animate-flip ` : "" } 
-        ${isGameOver ? `animate-bounce ` : "" }
         ${color ? color : ""}
       `}
     > 
