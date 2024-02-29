@@ -123,3 +123,37 @@ export const getHistoryScoresAverage = () => {
 
   return (Math.round(average * 10) / 10).toFixed(1);
 };
+
+export const setNewGameOverride = () => {
+  const { gameHistory } = getGameHistoryData();
+
+  let renewDate = new Date(gameHistory.today.date);
+
+  renewDate.setDate(renewDate.getDate() - 1);
+
+  const updatedDate = new Date(renewDate);
+
+  const existingUserData = localStorage.getItem("ps-wordle-game-user-data");
+
+  if (existingUserData && existingUserData !== "{}") {
+    const userData = JSON.parse(existingUserData);
+
+    let dataToSet = {...userData}
+
+    localStorage.setItem("ps-wordle-game-user-data", JSON.stringify(
+      {
+        ...dataToSet,
+        currentDate: updatedDate,
+      }
+    ));
+  }
+
+  localStorage.setItem("ps-wordle-game-user-history-data", JSON.stringify({
+    ...gameHistory,
+    today: {
+      ...gameHistory.today,
+      date: updatedDate,
+    }
+  }))
+
+};

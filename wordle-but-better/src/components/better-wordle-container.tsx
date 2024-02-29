@@ -23,7 +23,7 @@ type BetterWordleContainerProps = {
 export const BetterWordleContainer: React.FC<BetterWordleContainerProps> = (props) => {
   const { currentGuess, handleKeyUp, guesses, isEnterSubmitted, isCorrect, darkMode, setDarkMode } = props;
 
-  const showResultCard: boolean = currentGuess.guessCount === TOTAL_GUESSES || isCorrect;
+  const isGameOver: boolean = currentGuess.guessCount === TOTAL_GUESSES || isCorrect;
 
   React.useEffect(() => {
     window.addEventListener('keyup', handleKeyUp)
@@ -33,22 +33,22 @@ export const BetterWordleContainer: React.FC<BetterWordleContainerProps> = (prop
 
   return (
     <div className={`flex flex-row ${darkMode ? "bg-slate-800" : "bg-slate-050"}`}>
-      {showResultCard && 
+      {(isGameOver) && 
         <ResultCard score={isCorrect ? (TOTAL_GUESSES - currentGuess.guessCount + 1) : TOTAL_GUESSES - currentGuess.guessCount} darkMode={darkMode} />
       }
       <div className="h-screen w-full flex justify-center items-center select-none">
         <div>
           {Array.from({length: TOTAL_GUESSES}, (_, index) => {
             if (index === currentGuess.guessCount) {
-              return <WordRow key={index} currentGuess={currentGuess} darkMode={darkMode} />
+              return <WordRow key={index} currentGuess={currentGuess} darkMode={darkMode} isCorrect={isCorrect} />
             } 
             if (index <= guesses.length) {
               const guessAtIndex = guesses?.find((guess: GuessInfoType) => guess.index === index)?.guess
 
-              return <WordRow key={index} previousGuess={guessAtIndex} isEnterSubmitted={isEnterSubmitted} darkMode={darkMode} />
+              return <WordRow key={index} previousGuess={guessAtIndex} isEnterSubmitted={isEnterSubmitted} darkMode={darkMode} isCorrect={isCorrect} />
             }
             else {
-              return <WordRow key={index} darkMode={darkMode} />
+              return <WordRow key={index} darkMode={darkMode} isCorrect={isCorrect} />
             }
           })}
         </div>
