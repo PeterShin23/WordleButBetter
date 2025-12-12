@@ -2,3 +2,5 @@
 
 # Try it out on your desktop! (Mobile website not supported yet)
 https://notbetterthanwordle.netlify.app/
+
+<!-- this is from remote -->
